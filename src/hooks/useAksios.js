@@ -9,12 +9,7 @@ export const REQ_TYPES = Object.freeze({
 });
 
 const useAxios = (initialValue = []) => {
-  // response data'nın tutulacağı state
   const [data, setData] = useState(initialValue);
-  // istek başladıktan sonra cevap gelene kadar true olur
-  // const [loading, setLoading] = useState(false);
-  // Response error datasının tutulacağı state
-  // const [error, setError] = useState();
 
   const doRequest = ({
     endpoint,
@@ -32,8 +27,6 @@ const useAxios = (initialValue = []) => {
       })
       .catch((err) => {
         setData(initialValue);
-        // toast.error(err.message);
-        // throw err;
       })
       .finally(() => {});
   };

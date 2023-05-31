@@ -1,20 +1,15 @@
 import React, { useEffect, useState } from "react";
-
 import { Route, Switch, Redirect } from "react-router-dom";
 import MovieList from "./components/MovieList";
 import Movie from "./components/Movie";
-
 import MovieHeader from "./components/MovieHeader";
-
 import FavoriteMovieList from "./components/FavoriteMovieList";
-
-import axios from "axios";
 import EditMovieForm from "./components/EditMovieForm";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import AddMovieForm from "./components/AddMovieForm";
 import useAxios, { REQ_TYPES } from "./hooks/useAksios";
 
-const App = (props) => {
+const App = () => {
   const [movies, setMovies] = useState([]);
   const [favoriteMovies, setFavoriteMovies] = useState([]);
   const { push } = useHistory();
