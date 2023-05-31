@@ -1,35 +1,46 @@
 import React, { useEffect, useState } from "react";
 
 import { Route, Switch, Redirect } from "react-router-dom";
-import MovieList from './components/MovieList';
-import Movie from './components/Movie';
+import MovieList from "./components/MovieList";
+import Movie from "./components/Movie";
 
-import MovieHeader from './components/MovieHeader';
+import MovieHeader from "./components/MovieHeader";
 
-import FavoriteMovieList from './components/FavoriteMovieList';
+import FavoriteMovieList from "./components/FavoriteMovieList";
 
-import axios from 'axios';
+import axios from "axios";
+import EditMovieForm from "./components/EditMovieForm";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import AddMovieForm from "./components/AddMovieForm";
+import useAxios, { REQ_TYPES } from "./hooks/useAksios";
 
 const App = (props) => {
   const [movies, setMovies] = useState([]);
   const [favoriteMovies, setFavoriteMovies] = useState([]);
+  const { push } = useHistory();
+  const [getMovies] = useAxios();
+  const [deleteMovieWithId] = useAxios();
 
   useEffect(() => {
-    axios.get('http://localhost:9000/api/movies')
-      .then(res => {
-        setMovies(res.data);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    getMovies({
+      endpoint: `/api/movies`,
+      reqType: REQ_TYPES.GET,
+    }).then((res) => {
+      setMovies(res);
+    });
   }, []);
 
   const deleteMovie = (id) => {
-  }
+    deleteMovieWithId({
+      endpoint: `/api/movies/${id}`,
+      reqType: REQ_TYPES.DELETE,
+    }).then((res) => {
+      setMovies(res);
+      push("/movies");
+    });
+  };
 
-  const addToFavorites = (movie) => {
-
-  }
+  const addToFavorites = (movie) => {};
 
   return (
     <div>
@@ -44,10 +55,15 @@ const App = (props) => {
 
           <Switch>
             <Route path="/movies/edit/:id">
+              <EditMovieForm setMovies={setMovies} />
+            </Route>
+
+            <Route path="/movies/add">
+              <AddMovieForm setMovies={setMovies} />
             </Route>
 
             <Route path="/movies/:id">
-              <Movie />
+              <Movie deleteMovie={deleteMovie} />
             </Route>
 
             <Route path="/movies">
@@ -64,6 +80,4 @@ const App = (props) => {
   );
 };
 
-
 export default App;
-

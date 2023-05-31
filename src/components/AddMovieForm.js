@@ -1,25 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { useParams, useHistory } from "react-router-dom";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { useHistory, Link } from "react-router-dom";
 
 import useAxios, { REQ_TYPES } from "../hooks/useAksios";
 
-const EditMovieForm = (props) => {
-  const [editData] = useAxios();
-  const [getMovie] = useAxios();
-  useEffect(() => {
-    getMovie({
-      endpoint: `/api/movies/${id}`,
-      reqType: REQ_TYPES.GET,
-    }).then((res) => {
-      setMovie(res);
-    });
-  }, []);
-
+const AddMovieForm = (props) => {
   const { push } = useHistory();
-  const { id } = useParams();
 
   const { setMovies } = props;
+  const [addMovie] = useAxios();
+
   const [movie, setMovie] = useState({
     title: "",
     director: "",
@@ -37,25 +26,24 @@ const EditMovieForm = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    editData({
-      endpoint: `/api/movies/${id}`,
-      reqType: REQ_TYPES.PUT,
+    addMovie({
+      endpoint: `/api/movies`,
+      reqType: REQ_TYPES.POST,
       payload: movie,
     }).then((res) => {
       setMovies(res);
-      push(`/movies/${movie.id}`);
+      push(`/movies`);
     });
   };
 
   const { title, director, genre, metascore, description } = movie;
-  console.log(movie);
 
   return (
     <div className="bg-white rounded-md shadow flex-1">
       <form onSubmit={handleSubmit}>
         <div className="p-5 pb-3 border-b border-zinc-200">
           <h4 className="text-xl font-bold">
-            Düzenleniyor <strong>{movie.title}</strong>
+            Yeni Film Ekle<strong>{movie.title}</strong>
           </h4>
         </div>
 
@@ -122,4 +110,4 @@ const EditMovieForm = (props) => {
   );
 };
 
-export default EditMovieForm;
+export default AddMovieForm;
