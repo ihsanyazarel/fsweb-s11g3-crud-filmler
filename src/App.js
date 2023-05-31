@@ -33,9 +33,15 @@ const App = () => {
       setMovies(res);
       push("/movies");
     });
+    const favMovies = favoriteMovies.filter(m=>m.id !== id)
+    setFavoriteMovies(favMovies);
   };
 
-  const addToFavorites = (movie) => {};
+  const addToFavorites = (movie) => {
+    if(!favoriteMovies.find(m=>m.id ===movie.id)){
+      setFavoriteMovies([...favoriteMovies, movie]);
+    }
+  };
 
   return (
     <div>
@@ -58,7 +64,7 @@ const App = () => {
             </Route>
 
             <Route path="/movies/:id">
-              <Movie deleteMovie={deleteMovie} />
+              <Movie deleteMovie={deleteMovie} addToFavorites={addToFavorites}/>
             </Route>
 
             <Route path="/movies">

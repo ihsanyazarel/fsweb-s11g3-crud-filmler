@@ -1,22 +1,18 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link, useParams } from "react-router-dom";
 
 import useAxios, { REQ_TYPES } from "../hooks/useAksios";
 
 const Movie = (props) => {
   const { addToFavorites, deleteMovie } = props;
-
-  // const [movie, setMovie] = useState("");
   const [getData, movie] = useAxios();
-
   const { id } = useParams();
 
-  useEffect(() => {
-    getData({
-      endpoint: `/api/movies/${id}`,
-      reqType: REQ_TYPES.GET,
-    });
-  }, [id]);
+
+  getData({
+    endpoint: `/api/movies/${id}`,
+    reqType: REQ_TYPES.GET,
+  });
 
   return (
     <div className="bg-white rounded-md shadow flex-1">
@@ -47,7 +43,7 @@ const Movie = (props) => {
       </div>
 
       <div className="px-5 py-3 border-t border-zinc-200 flex justify-end gap-2">
-        <button className="myButton bg-blue-600 hover:bg-blue-500 ">
+        <button onClick={()=> addToFavorites(movie)} className="myButton bg-blue-600 hover:bg-blue-500 ">
           Favorilere ekle
         </button>
         <Link
