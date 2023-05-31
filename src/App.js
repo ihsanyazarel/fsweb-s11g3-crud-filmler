@@ -15,6 +15,13 @@ const App = () => {
   const { push } = useHistory();
   const [getMovies] = useAxios();
   const [deleteMovieWithId] = useAxios();
+  
+  useEffect(()=>{
+    const newFavMovies = favoriteMovies.map((m)=>{
+      return movies.find(val => val.id == m.id)
+    })
+    setFavoriteMovies(newFavMovies);
+  }, [movies])
 
   useEffect(() => {
     getMovies({
