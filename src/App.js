@@ -15,13 +15,13 @@ const App = () => {
   const { push } = useHistory();
   const [getMovies] = useAxios();
   const [deleteMovieWithId] = useAxios();
-
-  useEffect(() => {
-    const newFavMovies = favoriteMovies.map((m) => {
-      return movies.find((val) => val.id == m.id);
-    });
+  
+  useEffect(()=>{
+    const newFavMovies = favoriteMovies.map((m)=>{
+      return movies.find(val => val.id == m.id)
+    })
     setFavoriteMovies(newFavMovies);
-  }, [movies]);
+  }, [movies])
 
   useEffect(() => {
     getMovies({
@@ -40,12 +40,12 @@ const App = () => {
       setMovies(res);
       push("/movies");
     });
-    const favMovies = favoriteMovies.filter((m) => m.id !== id);
+    const favMovies = favoriteMovies.filter(m=>m.id !== id)
     setFavoriteMovies(favMovies);
   };
 
   const addToFavorites = (movie) => {
-    if (!favoriteMovies.find((m) => m.id === movie.id)) {
+    if(!favoriteMovies.find(m=>m.id ===movie.id)){
       setFavoriteMovies([...favoriteMovies, movie]);
     }
   };
@@ -71,10 +71,7 @@ const App = () => {
             </Route>
 
             <Route path="/movies/:id">
-              <Movie
-                deleteMovie={deleteMovie}
-                addToFavorites={addToFavorites}
-              />
+              <Movie deleteMovie={deleteMovie} addToFavorites={addToFavorites}/>
             </Route>
 
             <Route path="/movies">
@@ -82,12 +79,8 @@ const App = () => {
             </Route>
 
             <Route path="/">
-              <MovieList movies={movies} />
-            </Route>
-
-            {/* <Route path="/">
               <Redirect to="/movies" />
-            </Route> */}
+            </Route>
           </Switch>
         </div>
       </div>
